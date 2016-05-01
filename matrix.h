@@ -1,0 +1,40 @@
+#ifndef MATRIIIX
+#define MATRIIIX
+#include "vector.h"
+#include <iostream>
+
+class Matrix
+{
+private:
+   
+   Vector * matrix;   
+   int col;
+   int row;
+public:
+   
+   /* Constructors and destructors*/
+   explicit Matrix(int c = 2, int r = 2, int v = 0);
+   Matrix(const Matrix & t);
+   virtual ~Matrix();
+   
+   /* Overloaded operators */
+   Matrix & operator=(const Matrix & t); 
+   Matrix   operator+(const Matrix & t) const;
+   Matrix   operator-(const Matrix & t) const;
+   Matrix   operator*(const double multi) const;
+   Matrix & operator+=(const Matrix & t);
+   Matrix & operator-=(const Matrix & t);
+   Matrix & operator*=(const double multi);
+   bool     operator==(const Matrix & t) const;
+   bool     operator!=(const Matrix & t) const;
+   
+   /* friend functions */
+   friend std::ostream & operator<<(std::ostream & os, const Matrix & t);
+   friend std::istream & operator>>(std::istream & is, const Matrix & t);
+   friend Matrix operator*(const double multi, const Matrix & t);
+
+};
+
+#endif
+
+
