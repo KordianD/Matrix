@@ -90,6 +90,18 @@ Matrix  Matrix::operator+(const Matrix & t) const
 
 }
 
+Matrix  Matrix::operator+(const int t) const
+{
+	Matrix temp(col, row, t);
+        temp = temp + (*this);
+	return temp;
+}
+
+Matrix    operator+(const int a, const Matrix & t)
+{ 
+        return t + a;
+}        
+
 Matrix   Matrix::operator-(const Matrix & t) const
 {
     if (t.row != row || t.col != col)
@@ -102,9 +114,21 @@ Matrix   Matrix::operator-(const Matrix & t) const
 
       return temp;
 }
- 
 
-Matrix Matrix::operator*(const double multi) const
+Matrix  Matrix::operator-(const int t) const
+{
+	Matrix temp(col, row, t);
+	temp = (*this) - temp;
+	return temp;
+}
+
+
+Matrix operator-(const int a, const Matrix & t)
+{
+ 	return (t - a) * (-1);
+}
+
+Matrix Matrix::operator*(const int multi) const
 {
    Matrix temp((*this).col, (*this).row);
 
@@ -143,6 +167,14 @@ Matrix & Matrix::operator+=(const Matrix & t)
      return *this;
 }
 
+Matrix &  Matrix::operator+=(const int t)
+{
+	Matrix temp(col, row, t);
+	(*this) += temp;
+	return (*this);
+}
+
+
 Matrix & Matrix::operator-=(const Matrix & t)
 {
       if (row == t.row && col == t.col)
@@ -154,7 +186,15 @@ Matrix & Matrix::operator-=(const Matrix & t)
 	return *this;
 }
 
-Matrix & Matrix::operator*=(const double multi)
+Matrix & Matrix::operator-=(const int t)
+{
+	Matrix temp(col, row, t);
+        (*this) -= temp;
+}
+        
+
+
+Matrix & Matrix::operator*=(const int multi)
 {
 	for (int i = 0; i < row; i++)
            (*this).matrix[i] *= multi;
@@ -169,6 +209,14 @@ bool   Matrix::operator!=(const Matrix & t) const
       return false;
      else 
       return true;
+}
+
+int      Matrix::operator()(const int c, const int r)
+{
+	if ( c < 0 || r < 0 || c > col || r > row)
+	   throw "You are out of range! ";
+
+	return (*(matrix + r))[c];
 }
 
 

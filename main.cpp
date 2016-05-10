@@ -25,7 +25,30 @@ int main()
 	 Matrix C(A);
 	 std::cout << std::endl << "C(A) "   << std::endl << C;
 
+	 Matrix E(2,2,3);
+	 E += 2;
+	 std::cout << std::endl << "E += 2" << std::endl << E;
 
+	 Matrix F(3,3,4);
+	 F -= 5;
+	 std::cout << std::endl << "F -= 2" << std::endl << F;
+	 
+
+         Matrix G;
+	 Matrix H(2,2,3);
+	 G = 2 + H;
+
+         std::cout << std::endl << "G = 2 + H " << std::endl << G;
+
+	 Matrix I(2,2,6);
+	 Matrix J; 
+	 J = 3 - I;
+
+	 std::cout << std::endl << "J = 3 - I " << std::endl << J;
+
+
+         std::cout << std::endl << " J(1,1) " << std::endl << J(1,1);
+	 std::cout << std::endl;
          
          
        }

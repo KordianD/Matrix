@@ -20,18 +20,26 @@ public:
    /* Overloaded operators */
    Matrix & operator=(const Matrix & t); 
    Matrix   operator+(const Matrix & t) const;
+   Matrix   operator+(const int t) const;
    Matrix   operator-(const Matrix & t) const;
-   Matrix   operator*(const double multi) const;
+   Matrix   operator-(const int t) const;
+   Matrix   operator*(const int multi) const;
+   Matrix & operator+=(const int t);
    Matrix & operator+=(const Matrix & t);
    Matrix & operator-=(const Matrix & t);
-   Matrix & operator*=(const double multi);
+   Matrix & operator-=(const int t);
+   Matrix & operator*=(const int multi);
    bool     operator==(const Matrix & t) const;
    bool     operator!=(const Matrix & t) const;
+   int      operator()(const int c, const int r);
    
    /* friend functions */
    friend std::ostream & operator<<(std::ostream & os, const Matrix & t);
    friend std::istream & operator>>(std::istream & is, const Matrix & t);
-   friend Matrix operator*(const double multi, const Matrix & t);
+   friend Matrix operator*(const int multi, const Matrix & t);
+   friend Matrix operator+(const int a, const Matrix & t);
+   friend Matrix operator-(const int a, const Matrix & t);	
+   
 
 };
 
