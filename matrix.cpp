@@ -13,25 +13,37 @@ Matrix::Matrix(int c, int r, int v)
        col = 0; 
      }
 
-  matrix = new Vector[row];
-    for (int i = 0; i < row; i++)
-      matrix[i] =  Vector(col, v);
+  matrix = new Vector * [row];
+  
+  for (int i = 0; i < row; i++)
+     *(matrix + i) = new Vector(col, v);
+     
+   
 }
 
 Matrix::Matrix(const Matrix & t)
 {
-   matrix = new Vector[t.row];
+   matrix = new Vector * [t.row];
  
    row = t.row;
    col = t.col;
 
    for (int i = 0; i < row; i++)
-      matrix[i] = t.matrix[i];
+     { matrix[i] = new Vector(col);
+	*(*(matrix + i)) = *(*(t.matrix + i));
+     }
+
+       	
 }
 
 Matrix::~Matrix()
 {	   
-	delete [] matrix;     
+	for (int i = 0; i < row; i++)
+           delete  *(matrix + i);
+
+        delete [] matrix;
+              
+         
 }
 
 Matrix & Matrix::operator=(const Matrix & t)
@@ -39,17 +51,23 @@ Matrix & Matrix::operator=(const Matrix & t)
 	if (this == &t)
           return *this;
 
-      
-	 delete [] matrix;
+         for (int i = 0; i < row; i++)
+           delete   *(matrix + i);
+
+           delete [] matrix;
        
-        matrix = new Vector[t.row];
+        matrix = new Vector * [t.row];
 
 
 	row = t.row;
         col = t.col;
       
         for (int i = 0; i < row; i++)
-        matrix[i] = t.matrix[i];
+	   *(matrix + i) = new Vector(t.col); 
+
+        for (int j = 0; j < row; j++)
+	    *(*(matrix + j)) = *(*(t.matrix + j)); 
+
 
         return *this;
 }
@@ -58,7 +76,7 @@ std::ostream & operator<<(std::ostream & os, const Matrix & t)
 {
   for (int i = 0; i < t.row; i++)
     {
-       std::cout << t.matrix[i]; 
+       std::cout << (*(*(t.matrix + i)))[i];      // (*t.matrix)[i];
        std::cout << std::endl;
     }
 
@@ -68,7 +86,7 @@ std::ostream & operator<<(std::ostream & os, const Matrix & t)
 std::istream & operator>>(std::istream & is, const Matrix & t)
 {
    for (int i = 0; i < t.row; i++)
-      std::cin >> t.matrix[i];
+      std::cin >>   *(*(t.matrix + i));
 
    return is;
 }
@@ -84,7 +102,9 @@ Matrix  Matrix::operator+(const Matrix & t) const
    Matrix temp(col, row);
    
     for (int i = 0; i < row; i++)
-       temp.matrix[i] = t.matrix[i] + matrix[i];
+	*(*(temp.matrix + i)) =   *(*(t.matrix + i)) + *(*(matrix + i));  
+
+// (*temp.matrix)[i] = (*t.matrix)[i] + (*matrix)[i];
 
   return temp;
 
@@ -110,7 +130,9 @@ Matrix   Matrix::operator-(const Matrix & t) const
     Matrix temp(col, row);
 
          for (int i = 0; i < row; i++)
-       temp.matrix[i] = t.matrix[i] - matrix[i];
+            *(*(temp.matrix + i)) =   *(*(matrix + i)) - *(*(t.matrix + i)); 
+
+
 
       return temp;
 }
@@ -133,7 +155,9 @@ Matrix Matrix::operator*(const int multi) const
    Matrix temp((*this).col, (*this).row);
 
     for (int i = 0; i < (*this).row; i++)
-        temp.matrix[i] = (*this).matrix[i] * multi;
+       *(*(temp.matrix + i)) = *(*(matrix + i)) * multi;
+
+  
 
         return temp;
 
@@ -144,7 +168,7 @@ bool   Matrix::operator==(const Matrix & t) const
     if (t.row == row)
       {
           for (int i = 0; i < row; i++)
-            if ((matrix[i] == t.matrix[i]) == 0)
+            if (  *(*(matrix + i)) == *(*(t.matrix + i)) == 0)
                 return false;
 	
 	   else
@@ -160,7 +184,8 @@ Matrix & Matrix::operator+=(const Matrix & t)
 {
       if (row == t.row && col == t.col)
            for (int i = 0; i < row; i++)
-		matrix[i] += t.matrix[i];
+	    *(*(matrix + i)) += *(*(t.matrix + i));		
+	
        else
           throw "You cannot add different matrixes ";
 
@@ -179,7 +204,7 @@ Matrix & Matrix::operator-=(const Matrix & t)
 {
       if (row == t.row && col == t.col)
            for (int i = 0; i < row; i++)
-		matrix[i] -= t.matrix[i];
+		*(*(matrix + i)) -= *(*(t.matrix + i));
        else
           throw "You cannot substract different matrixes ";
 
@@ -197,7 +222,7 @@ Matrix & Matrix::operator-=(const int t)
 Matrix & Matrix::operator*=(const int multi)
 {
 	for (int i = 0; i < row; i++)
-           (*this).matrix[i] *= multi;
+            *(*(matrix + i)) *= multi;
 }
 
 bool   Matrix::operator!=(const Matrix & t) const
@@ -216,7 +241,7 @@ int      Matrix::operator()(const int c, const int r)
 	if ( c < 0 || r < 0 || c > col || r > row)
 	   throw "You are out of range! ";
 
-	return (*(matrix + r))[c];
+	return (*(*(matrix + r)))[c];
 }
 
 

@@ -7,7 +7,7 @@ class Matrix
 {
 private:
    
-   Vector * matrix;   
+   Vector ** matrix;   
    int col;
    int row;
 public:
