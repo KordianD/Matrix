@@ -76,7 +76,7 @@ std::ostream & operator<<(std::ostream & os, const Matrix & t)
 {
   for (int i = 0; i < t.row; i++)
     {
-       std::cout << (*(*(t.matrix + i)))[i];      // (*t.matrix)[i];
+       std::cout << (*(*(t.matrix + i)));      // (*t.matrix)[i];
        std::cout << std::endl;
     }
 
